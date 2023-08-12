@@ -1,0 +1,95 @@
+{%load static%}
+<script>
+    const filters = [...$(".filterBtns")]
+    function removeActive(){
+        filters.forEach(element => {
+        element.style.fontWeight = "unset"
+        
+    });}
+    function getByAmount(e){
+        removeActive()
+        e.style.fontWeight = "bold"
+        url1 = "{%url 'filterByAmount' cat_name 12345%}"
+        url1 = url1.replace('12345',e.classList[0])
+        $.ajax({
+            url:url1,
+            type: "GET",
+            success: function (data) {
+                let x = JSON.stringify(data);
+                
+                $(".card-list").empty();
+                console.log($(".card-list"))
+                for(var key in data.filtered){
+                    temp = `<div class="card">
+                    <div class="card-shadow">
+                        <div class="card-header">
+                            <div class="logo">hitme<span>app</span></div>
+                            <p>${data.filtered[key].category}</p>
+                        </div>
+                        <div class="card-img">
+                            <img src="${/media/}${data.filtered[key].image}" alt="">
+                        </div>
+                        <div class="card-text">
+                            <h3>${data.filtered[key].name}</h3>
+                            <p>GHC ${data.filtered[key].price}</p>
+                        </div> 
+                    </div>
+                    <div class="product-card-footer">
+                        <div onclick="detailModal(this,${data.filtered[key].id})" class="btn">View</div>
+                    </div>
+                </div>`
+                $(".card-list").append(temp)
+
+                }
+            },
+
+        // Error handling
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+        }
+
+    function getByTime(e){
+    removeActive()
+    e.style.fontWeight = "bold"
+    url1 = "{%url 'filterByTime' cat_name 12345%}"
+    url1 = url1.replace('12345',e.classList[0])
+    $.ajax({
+        url:url1,
+        type: "GET",
+        success: function (data) {
+            let x = JSON.stringify(data);
+            
+            $(".card-list").empty();
+            for(var key in data.filtered){
+                temp = `<div class="card">
+                <div class="card-shadow">
+                    <div class="card-header">
+                        <div class="logo">hitme<span>app</span></div>
+                        <p>${data.filtered[key].category}</p>
+                    </div>
+                    <div class="card-img">
+                        <img src="${/media/}${data.filtered[key].image}" alt="">
+                    </div>
+                    <div class="card-text">
+                        <h3>${data.filtered[key].name}</h3>
+                        <p>GHC ${data.filtered[key].price}</p>
+                    </div> 
+                </div>
+                <div class="product-card-footer">
+                    <div onclick="detailModal(this,${data.filtered[key].id})" class="btn ">View</div>
+                </div>
+            </div>`
+            $(".card-list").append(temp)
+
+            }
+        },
+
+    // Error handling
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
+    }
+</script>

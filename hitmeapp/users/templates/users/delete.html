@@ -1,0 +1,50 @@
+{%load static%}  
+{% csrf_token %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const delete_modal = document.querySelector(".delete-modal")
+    function displayModal(e,pname,pid){
+        $(".prompt")[0].innerText = "Are you sure you want to delete " + pname
+        delete_modal.style.opacity = "1";     
+        delete_modal.style.transform = "translateX(0%)";
+        console.log($("tr","#"+ pid))
+        $(".yes").on("click",(e)=>{
+        console.log(pid)
+        url1 = "{%url 'delete' 12345 %}"   
+        url1 = url1.replace('12345',pid)     
+        $.ajax({
+            url:url1,
+            headers: {'X-CSRFToken': csrftoken},
+            type: "POST",
+            
+            success: function () {    
+                console.log(`Student ${pid} deleted`);
+                deletedRow = $("tr","#"+ pid)
+                deletedRow.prevObject.remove()
+                //undisplay modal
+                delete_modal.style.opacity = "0";
+                delete_modal.style.transform = "translateX(100%)";
+                 
+               
+            },
+
+        // Error handling
+            error: function (error) {
+                console.log(`Error ${error}`);
+            }
+        });
+        
+   
+    })
+    
+    }
+    document.addEventListener("click",(e)=>{
+        if (e.target.innerText == "No" ||e.target.classList.contains("delete-modal") || e.target.classList.contains("fa-circle-xmark")){
+            delete_modal.style.opacity = "0";
+            delete_modal.style.transform = "translateX(100%)";
+        }
+    
+    })
+
+
+    </script>

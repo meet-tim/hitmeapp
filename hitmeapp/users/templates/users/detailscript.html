@@ -1,0 +1,72 @@
+    {%load static%}  
+    {%csrf_token%}
+    <script>
+        const productModal = document.querySelector(".product-modal")
+        function detailModal(e,pid){
+            console.log(pid)
+            url1 = "{%url 'details' 12345 %}"   
+            url1 = url1.replace('12345',pid)     
+            $.ajax({
+                url:url1,
+                type: "GET",
+                success: function (data) {
+                    let x = JSON.stringify(data);
+                    console.log(data.product[0].name);
+                    $(".product-title")[0].innerText = data.product[0].name
+                    $(".product-category")[0].innerText = data.product[0].category
+                    $(".product-price")[0].innerText = "GHC " + data.product[0].price
+                    $(".product-desc")[0].innerText = data.product[0].desc
+                    $(".product-phone")[0].href = "tel:+233" + data.product[0].contact
+                    $(".product-location")[0].innerText = data.product[0].location
+                    $(".image-url")[0].src = "/media/" + data.product[0].image
+                    
+                    productModal.style.opacity = "1";
+                    productModal.style.transform = "translateX(0%)";
+                },
+    
+            // Error handling
+                error: function (error) {
+                    console.log(`Error ${error}`);
+                }
+            });
+            
+       
+        }
+        document.addEventListener("click",(e)=>{
+            if (e.target.classList.contains("product-modal") || e.target.classList.contains("fa-circle-xmark")){
+                productModal.style.opacity = "0";
+                productModal.style.transform = "translateX(100%)";
+            }
+        
+        })
+  
+    
+    </script>
+    <script>
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const inpt = $("textarea")
+        console.log(inpt)
+        function submitSuggestion(e){ 
+            url1 = "{%url 'suggestion' 12345 %}"   
+            url1 = url1.replace('12345',inpt[0].value)     
+            $.ajax({
+                headers: {'X-CSRFToken': csrftoken},
+                url:url1,
+                type: "POST",
+                success: function (data) {
+                    inpt[0].value =""
+                    window.alert("Thanks for sharing your thoughts")
+                     },
+    
+            // Error handling
+                error: function (error) {
+                    window.alert("field can't be empty")
+                }
+            });
+            
+       
+        }
+        
+  
+    </script>
+    

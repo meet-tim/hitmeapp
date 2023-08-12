@@ -1,0 +1,64 @@
+{%load static%}
+{% load socialaccount %}
+<footer>
+    <div class="content">
+      <div class="top">
+        <div class="logo-details">
+            <i class="fa-solid fa-tag"></i>
+          <span class="logo">hitme<span>app</span></span>
+        </div>
+        <div class="media-icons">
+          <a href="#"><i class="fa-regular fa-envelope"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          
+        </div>
+      </div>
+      <div class="link-boxes">
+        <ul class="box">
+          <li class="link_name">Company</li>
+          <li><a href="{%url 'index'%}">Home</a></li>
+          <li><a href="{%url 'about'%}">About Us</a></li>
+          <li><a href="{%url 'about'%}">Guidelines</a></li>
+          {%if not user.is_authenticated%}
+        <li><a href="{% provider_login_url 'google' %}?next=/">Get Started</a></li>
+        {%else%}
+        <li><a href="{%url 'dashboard'%}">Dashboard</a></li>
+        {%endif%} 
+        </ul>
+        <ul class="box">
+          <li class="link_name">Ad Space</li>
+          <p style="color:white">Need Web dev services?</p>
+          <li><a>Contact at kumahtim18@gmail.com</a></li>
+        </ul>
+        <ul class="box">
+            <li class="link_name">Account</li>
+            <li><a href="{%url 'dashboard'%}">Dashboard</a></li>
+            <li><a href="{%url 'create'%}">Add Product</a></li>
+            {%if user.is_authenticated%}
+            <li><a href="{%url 'logout'%}">Logout</a></li>
+            {%endif%}     
+        </ul>
+        <ul class="box">
+          <li class="link_name">Categories</li>
+          <li><a href="{%url 'products' 'Furniture'%}">Furniture </a></li>
+          <li><a href="{%url 'products' 'Tools'%}">Tools</a></li>
+          <li><a href="{%url 'products' 'Appliances'%}">Appliances</a></li>
+          <li><a href="{%url 'products' 'Decor'%}">Decors</a></li>
+        </ul>
+        <ul class="box input-box">
+          <li class="link_name">Mobile App?</li>
+          <img src="{%static 'images/comingsoon.jpg'%}" alt="">
+        </ul>
+      </div>
+    </div>
+    <div class="bottom-details">
+      <div class="bottom_text">
+        <span class="copyright_text">Copyright &#169; 2023 <a href="#">hitMeApp.</a>All rights reserved</span>
+        <span class="policy_terms">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms & condition</a>
+        </span>
+      </div>
+    </div>
+  </footer>

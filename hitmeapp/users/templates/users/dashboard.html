@@ -1,0 +1,43 @@
+{%extends 'users/base.html'%}
+{%load static%}
+{%block content%}
+    <div class="dashboard">
+        <div class="wrapper">
+            <div class="profile">
+                <div class="avatar">{{name|make_list|first|capfirst}}</div>
+                <p>{{name}}</p>
+                <a href="{%url 'dashboard'%}">My Products</a>
+                <a href="{%url 'logout'%}">Logout</a>
+            </div>
+            <div class="header"><p>Welcome, {{name}} </p>
+                <a href="{%url 'create'%}" class="btn y"><i class="fa-solid fa-plus"></i>Add product</a>
+            </div>
+            <table class="table">
+
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Date Posted</th>
+                    <th>Actions</th>
+                </tr>
+                {%for product in products%}
+                <tr id="{{product.id}}">
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.location}}</td>
+                    <td>{{product.date_posted}}</td>
+                    <td>
+                        <a href="{%url 'update' product.id%}"><i class="fa-solid fa-pencil"></i></a>
+                        <a onclick="displayModal(this,'{{product.name}}',{{product.id}})"><i class="fa-solid fa-trash" style="color: #ce281c;"></i></a>
+                    </td>
+                </tr>
+                {%endfor%}
+                
+            </table>
+        </div>
+        {%include 'users/delete.html'%}
+    </div>
+{%endblock%}

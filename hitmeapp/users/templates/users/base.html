@@ -1,0 +1,114 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+{%include 'users/head.html'%}
+<body>
+    {% load socialaccount %}
+
+<div class="modal">
+    <div class="wrapper">
+        <div class="close">
+            <i class="fa-sharp fa-regular fa-circle-xmark"></i>
+        </div>
+        
+        <form action="{%url 'search'%}">
+            <input class="search" type="search" name="q" id="">
+            <input class="btn " type="submit" value="Search">
+        </form>
+        <h2>Keywords</h2>
+        <div class="tags">
+            {%for tag in tags%}
+            <a href="{%url 'products' tag.name%}">{{tag.name}}</a>         
+            {%endfor%}
+        </div>
+        
+    </div>
+</div>
+<div class="delete-modal">
+    <div method="post" class="wrapper del">
+        <div class="close">
+            <i class="fa-sharp fa-regular fa-circle-xmark"></i>
+        </div>
+        <p class="prompt"></p>
+        <div>
+            <a class="yes" class="btn btn-primary" >Yes</a>
+            <a class="btn btn-secondary" value="No">No</a>
+        </div>
+    </div>
+</div>
+<div class="product-modal">
+    <div class="wrapper">
+        <div class="close">
+            <i class="fa-sharp fa-regular fa-circle-xmark"></i>
+        </div>
+        <div class="grid">
+            <div class="product-img">
+                <img class="image-url" src="" alt="">
+            </div>
+            <div class="product-text">
+                <div class="product-title">
+                    Lorem, ipsum dolor.
+                </div>
+                <div class="product-category">
+                    furniture
+                </div>
+                <div class="product-price">
+                    GHC 250
+                </div>
+                <div class="product-location">
+                    Place
+                </div>
+                <div class="product-desc">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur quis iste libero soluta. Rerum, iusto! 
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, facere dolores.
+                </div>
+                <a href="" class="btn btn-secondary product-phone">Hit me up</a>
+            </div>
+            </div>
+        </div>
+        <div class="footer">
+           
+    </div>
+</div>
+<div class="contact">
+    <a href="mailto:"><i class="fa-regular fa-2x fa-envelope"></i></a>
+    <a href="https://wa.me/233272061049"><i class="fa-brands fa-2x fa-whatsapp"></i></a>
+</div>
+<div  class="navbar">
+    <div class="wrapper">
+        <a style="font-size: 1.2rem;" href="{%url 'index'%}" class="logo">hitme<span>app</span></a>
+        <ul>
+            <a href="{%url 'products' 'Appliances'%}">Appliances</a>
+            <a href="{%url 'products' 'Decor'%}">Decor</a>
+            <a href="{%url 'products' 'Furniture'%}">Furniture</a>
+            <a href="{%url 'products' 'Tools'%}">Tools and gadget</a>
+            
+            <button class="btn btn-secondary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            {%if not user.is_authenticated%}
+            <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-primary">Get Started</a>
+            {%else%}
+            <a class="btn btn-primary" href="{%url 'dashboard'%}">{{user}}</a>
+            {%endif%}
+            </ul>   
+            <div class="mobile-only">
+                <a href="{%url 'products' 'Appliances'%}"><i class="fa-solid fa-plug"></i></a>
+                <a href="{%url 'products' 'Decor'%}"><i class="fa-solid fa-palette"></i></a>
+                <a href="{%url 'products' 'Furniture'%}"><i class="fa-solid fa-couch"></i></a>
+                <a href="{%url 'products' 'Tools'%}"><i class="fa-solid fa-hammer"></i></a>
+                <button class="btn btn-secondary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                {%if not user.is_authenticated%}
+                <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-primary"><i class="fa-brands fa-google"></i></a>
+                {%else%}
+                <a class="btn btn-primary" href="{%url 'dashboard'%}"><i class="fa-solid fa-user"></i></a>
+                {%endif%}
+            </div>
+    </div>
+    
+</div>
+
+{%block content%}
+{%endblock%}
+{%include 'users/footer.html'%}
+{%include 'users/scripts.html'%}
+</body>

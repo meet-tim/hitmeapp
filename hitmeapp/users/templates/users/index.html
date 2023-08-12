@@ -1,0 +1,141 @@
+{%extends 'users/base.html'%}
+{%load static%}
+
+{%block content%}
+{% load socialaccount %}
+    <div class="hero">
+        <div class="wrapper">
+            <div class="hero-text">
+                <div class="main">We are open</div>
+                <div class="sub">Go through our listings. See anything you like? Hit me up</div>
+                {%if user.is_authenticated%}
+                <a  href="{%url 'dashboard' %}" class="btn btn-hero">Dashboard<i class="fa-brands fa-graph"></i></a>
+                {%else%}
+                <a  href="{% provider_login_url 'google' %}?next=/" class="btn btn-hero">Sign in with Google <i class="fa-brands fa-google"></i></a>
+                {%endif%}
+            </div>
+            <div class="hero-image"><img src="{% static 'images/hero.jpg'%}" alt=""></div>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="wrapper">
+            <p style="margin-bottom: 1rem;">Security is of the utmost importance to us. We recommend you read our guidelines to aid you make better and safer transactions.</p>
+        <a  href="{%url 'about'%}" class="btn btn-secondary">
+            Guidelines
+        </a>
+        </div>
+        
+    </div>
+    {%if deals%}
+    <section class="deals">
+        <div class="wrapper">
+            <h2>Best Deals</h2>
+            <div class="card-list">
+                {%for deal in deals%}
+                <div class="card">
+                    <div class="card-img">
+                        <div class="logo">hitme<span>app</span></div>
+                        <img src="{{deal.product.image.url}}" alt="">
+                    </div>
+                    <div class="card-text">
+                        <h3>{{deal.product.name}}</h3>
+                        <p style="color:rgb(87, 86, 94)"><i class="fa-solid fa-circle-info"></i><b>Description:</b> {{deal.product.desc}}</p>
+                        <p><i class="fa-solid fa-location-dot"></i><b>location:</b> {{deal.product.location}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <p><i class="fa-solid fa-tag"> </i>Price: GHC {{deal.product.price}}</p>
+                        <a href="tel:+233{{deal.product.contact}}" class="btn btn-primary">Hit me up</a>
+                    </div>
+                </div>
+                {%endfor%}
+                
+           
+            </div>
+        </div>
+    </section>
+    {%endif%}
+    {%if latest%}
+    <section style="padding-bottom: 2rem;" class="general snaps-inline">
+        <div class="wrapper">
+            <h2>latest</h2>
+            <div class="card-list">
+                {%for product in latest%}
+                <div class="card">
+                    <div class="card-shadow">
+                        <div class="card-header">
+                            <div class="logo">hitme<span>app</span></div>
+                            <p>{{product.category}}</p>
+                        </div>
+                        <div class="card-img">
+                            <img src="{{product.image.url}}" alt="">
+                        </div>
+                        <div class="card-text">
+                            <h3>{{product.name}}</h3>
+                            <p>GHC {{product.price}}</p>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <div onclick="detailModal(this,{{product.id}})" class="btn ">View</div>
+                    </div>
+                </div>   
+                {%endfor%}        
+            </div>
+        </div>
+    </section>
+    {%endif%}
+    <section class="most-searched">
+        <div class="wrapper">
+            <p>What our users are searching.</p>
+            
+            <a href="{%url 'products' 'Furniture'%}" class="btn btn-primary">Furniture</a>
+        </div>
+    </section>
+    {%if lessthan100%}
+    <section style="padding-bottom: 2rem;" class="general snaps-inline">
+        <div class="wrapper">
+            <h2>Less than GHC 100</h2>
+            <div class="card-list">
+                {%for product in lessthan100%}
+                <div class="card">
+                    <div class="card-shadow">
+                        <div class="card-header">
+                            <div class="logo">hitme<span>app</span></div>
+                            <p>{{product.category}}</p>
+                        </div>
+                        <div class="card-img">
+                            <img src="{{product.image.url}}" alt="">
+                        </div>
+                        <div class="card-text">
+                            <h3>{{product.name}}</h3>
+                            <p>GHC {{product.price}}</p>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <div onclick="detailModal(this,{{product.id}})" class="btn ">View</div>
+                    </div>
+                </div>   
+                {%endfor%}        
+            </div>
+        </div>
+    </section>
+    {%endif%}
+    <div class="suggestion-box">
+        <div class="wrapper">
+            <p><b>📣 Have a Suggestion? We're All Ears! 📣</b><br>
+                Got ideas to make our website even better? We're excited to hear from you! Drop your suggestions into our virtual suggestion box and help us enhance your online experience. Your insights matter – let's shape the future together!</p>
+            <div class="form">
+                <textarea placeholder="Share your thoughts" required ></textarea>
+            <div type="submit" onclick="submitSuggestion(this)" class="btn">
+                Submit
+            </div>
+            </div>
+                
+
+        </div>
+    </div>
+   
+
+    
+    {%include 'users/detailscript.html'%}
+{%endblock%}
+

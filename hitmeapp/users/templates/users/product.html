@@ -1,0 +1,69 @@
+{%extends 'users/base.html'%}
+{%load static%}
+{%block content%}
+    <section class="product-list">
+        <div class="wrapper">
+            <div class="filter">
+                <div class="title">Filter<i class="fa-solid fa-sliders"></i></div>         
+                <ul>
+                    <p>Price</p>
+                    <li onclick="getByAmount(this)" class="lt100 filterBtns">< Ghc100</li>
+                    <li onclick="getByAmount(this)" class="gt100 filterBtns">GHC100-199</li>
+                    <li onclick="getByAmount(this)" class="gt200 filterBtns">GHC200-299</li>
+                </ul>
+                <ul>
+                    <p>Time</p>
+                    <li onclick="getByTime(this)" class="today filterBtns">Today</li>
+                    <li onclick="getByTime(this)" class="week filterBtns">Last 7days</li>
+                    <li onclick="getByTime(this)" class="month filterBtns">Last 30 days</li>
+                </ul>
+            </div>
+            <h2>{{cat_name}}</h2>
+            <div class="card-list">  
+                {%for product in products%}
+                <div class="card">
+                    <div class="card-shadow">
+                        <div class="card-header">
+                            <div class="logo">hitme<span>app</span></div>
+                            <p>{{product.category}}</p>
+                        </div>
+                        <div class="card-img">
+                            <img src="{{product.image.url}}" alt="">
+                        </div>
+                        <div class="card-text">
+                            <h3>{{product.name}}</h3>
+                            <p>GHC {{product.price}}</p>
+                        </div> 
+                    </div>
+                    <div class="product-card-footer">
+                        <div onclick="detailModal(this,{{product.id}})" class="btn ">View</div>
+                    </div>
+                </div>
+                {%empty%}
+                <p>Uh oh, We are out of those.Please Check back another time</p>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="pages">
+            <ul class="pagination">
+              {%if products.has_previous%}
+              <li class="page-item"><a href="?{{page_var}}={{ products.previous_page_number }}" class="page-link"> <i class="fa fa-angle-double-left"></i></a></li>
+              {%endif%}
+              {% for i in products.paginator.page_range %}
+              {% if products.number == i %}
+              <li class="page-item active"><a href="?{{page_var}}={{ i }}" class="page-link">{{i}}</a></li>
+              {%else%}
+              <li class="page-item "><a href="?{{page_var}}={{ i }}" class="page-link">{{i}}</a></li>
+              {% endif %}
+              {% endfor %}
+              {%if products.has_next%}
+              <li class="page-item"><a href="?{{page_var}}={{ products.next_page_number }}" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+              {%endif%}
+            </ul>
+        </div>
+    </section>
+    {%include 'users/filterscript.html'%}
+    {%include 'users/detailscript.html'%}
+
+
+   {%endblock%}
